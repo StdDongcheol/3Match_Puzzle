@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7d3bcd31ed6703349b4073fa12258eb8
+timeCreated: 1427190332
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 58686
+  packageName: Untitled
+  packageVersion: 1.0
+  assetPath: Assets/FruitFace_v1/Animation/UI_FX/FX_Ray_line.controller
+  uploadId: 108531
