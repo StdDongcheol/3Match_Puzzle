@@ -100,6 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Row: 0
   Column: 0
+  DestroyEffectObject: {fileID: 140983630665151576, guid: 216a7f586d3f0b04f97e436a641e9c5d, type: 3}
 --- !u!61 &3745246949593086229
 BoxCollider2D:
   m_ObjectHideFlags: 0
