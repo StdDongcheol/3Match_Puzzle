@@ -24,7 +24,7 @@ public class TileBackground : MonoBehaviour
         Column = _Column;
     }
     
-    public void SetTileObject(ref GameObject _TileObject)
+    public void SetTileObject(GameObject _TileObject)
     {
         CurrentTile = _TileObject;
     }
@@ -42,6 +42,24 @@ public class TileBackground : MonoBehaviour
     void Start()
     {
         Initialize();
+    }
+    
+    void Update()
+    {
+        if (IsSetFruitManual)
+        {
+            if (FruitType != GetTileComponent().GetFruitType())
+            {
+                IsSetFruitManual = false;
+                Destroy(CurrentTile);
+                GameObject Tile = Instantiate(Tiles[(int)FruitType], transform.position, Quaternion.identity);
+                Tile.transform.parent = this.transform;
+                Tile.GetComponent<Tile>().SetPosition(Row, Column);
+                Tile.GetComponent<Tile>().SetFruitType(FruitType);
+                SetTileObject(Tile);
+                CurrentTile = Tile;
+            }
+        }
     }
 
     public void CreateFruit()
@@ -63,7 +81,7 @@ public class TileBackground : MonoBehaviour
         Tile.transform.parent = this.transform;
         Tile.GetComponent<Tile>().SetPosition(Row, Column);
         Tile.GetComponent<Tile>().SetFruitType((Tile.TileType)TileIndex);
-        SetTileObject(ref Tile);
+        SetTileObject(Tile);
         
     }
 }

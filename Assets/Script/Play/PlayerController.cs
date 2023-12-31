@@ -1,4 +1,5 @@
 
+using NUnit.Framework.Constraints;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -10,7 +11,7 @@ public class PlayerController : MonoBehaviour
 {
     private GameObject SrcTile;
     private GameObject DstTile;
-
+    
     void Start()
     {
     }
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
         {
             OnClick();
         }
-        
+
     }
 
     void OnClick()
@@ -61,11 +62,10 @@ public class PlayerController : MonoBehaviour
                     if (Tile.IsTileNearBy(SrcTile, DstTile))
                     {
                         Tile.SwapTile(SrcTile, DstTile);
+
                         Debug.Log("Swapped");
 
-                        // tilebackground의 tile 까지 교체됐음.
-                        // 여기서 Board한테 3매치 체크 요청을 보내.
-                        // 그럼 Board가 가지고 있는 tilebackground 배열을 통해서 3매칭 알고리즘을 진행하면 되
+
                     }
 
                     SrcTile = null;

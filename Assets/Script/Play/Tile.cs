@@ -44,8 +44,8 @@ public class Tile : MonoBehaviour
         _tile1.transform.parent = _tile2.transform.parent;
         _tile2.transform.parent = ParentTransform;
 
-        _tile1.transform.parent.GetComponent<TileBackground>().SetTileObject(ref _tile2);
-        _tile2.transform.parent.GetComponent<TileBackground>().SetTileObject(ref _tile1);
+        _tile1.transform.parent.GetComponent<TileBackground>().SetTileObject(_tile2);
+        _tile2.transform.parent.GetComponent<TileBackground>().SetTileObject(_tile1);
 
         _tile1.GetComponent<Tile>().SetPosition(Tile2Row, Tile2Col);
         _tile2.GetComponent<Tile>().SetPosition(Tile1Row, Tile1Col);
@@ -74,6 +74,14 @@ public class Tile : MonoBehaviour
 
         return false;
     }
+    
+    static public bool IsSameTile(GameObject _tile1, GameObject _tile2)
+    {
+        TileType Tile1Type = _tile1.GetComponent<Tile>().GetFruitType();
+        TileType Tile2Type = _tile2.GetComponent<Tile>().GetFruitType();
+
+        return Tile1Type == Tile2Type;
+    }
 
     public void SetPosition(int _Row, int _Column)
     {
@@ -90,6 +98,11 @@ public class Tile : MonoBehaviour
     public TileType GetFruitType()
     {
         return FruitType;
+    }
+    
+    public bool IsTileMoved()
+    {
+        return bMoveTile;
     }
 
     public void SetMatchCheck(bool _bEnable)
@@ -120,13 +133,13 @@ public class Tile : MonoBehaviour
 
         if (bMatchCheck)
         {
+            bMatchCheck = false;
             TileBackground TileBack = this.transform.parent.gameObject.GetComponent<TileBackground>();
 
             TileBack.CreateFruit();
 
             GameObject EffectObject = Instantiate(DestroyEffectObject, this.transform.parent);
             Destroy(EffectObject, 1.0f);
-            Destroy(this.gameObject);
         }
     }
 }
