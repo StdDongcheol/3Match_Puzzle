@@ -118,7 +118,7 @@ public class Board : MonoBehaviour
             // _StartRow = YPos, _StartCol = XPos
             ListResult.Add(new Vector2Int(_StartCol, _StartRow));
 
-            Debug.Log("Matched by " + Count + ". (" + _StartRow + ", " + _StartCol + ")");
+            Debug.Log("Matched by " + Count + ". (" + _StartCol + ", " + _StartRow + ")");
             return ListResult;
         }
         else
@@ -132,8 +132,8 @@ public class Board : MonoBehaviour
 
         bool[,] CheckBoard = new bool[Height, Width];
 
-        Queue<Vector2Int> CoordQueue = new Queue<Vector2Int>();
         Queue<Vector2Int> CheckQueue = new Queue<Vector2Int>();
+        Queue<Vector2Int> CoordQueue = new Queue<Vector2Int>();
         CoordQueue.Enqueue(new Vector2Int(0, 0));
 
         for (int i = 0; i < Height; ++i)
