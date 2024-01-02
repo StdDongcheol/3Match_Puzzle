@@ -82,6 +82,15 @@ public class Tile : MonoBehaviour
 
         return Tile1Type == Tile2Type;
     }
+    
+    static public bool CheckTile(GameObject _tile1)
+    {
+        int Tile1Row = _tile1.GetComponent<Tile>().Row;
+        int Tile1Col = _tile1.GetComponent<Tile>().Column;
+        _tile1.transform.parent.parent.GetComponent<Board>().Check(Tile1Row, Tile1Col);
+
+        return true;
+    }
 
     public void SetPosition(int _Row, int _Column)
     {
