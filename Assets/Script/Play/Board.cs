@@ -16,6 +16,8 @@ public class Board : MonoBehaviour
     private int Height;
     [SerializeField]
     private GameObject TilePrefab;
+    [SerializeField]
+    private bool IsTileSetToManual;
 
     private static int[] dx = new int[4] {1, -1, 0, 0 };
     private static int[] dy = new int[4] { 0, 0, 1, -1 };
@@ -25,8 +27,22 @@ public class Board : MonoBehaviour
     private GameObject[,] Tiles;
     private List<Vector2Int> CheckList;
 
+    private static Board CurBoard;
+
+    public static Board GetBoard() 
+    { 
+        if (CurBoard == null)
+            return null;
+
+        return CurBoard; 
+    }
+
     void Start()
     {
+        if (CurBoard == null)
+        {
+            CurBoard = this;
+        }
         Tiles = new GameObject[Width, Height];
         ColumnLineArr = new int[Width];
         ColumnFallLine = new int[Width];
@@ -200,8 +216,6 @@ public class Board : MonoBehaviour
 
     public void MoveTiles()
     {
-        for (int i = 0; i < Width; ++i)
-            ColumnFallLine[i] = 0;
 
         for (int i = 0; i < CheckList.Count; ++i)
         {
@@ -242,7 +256,7 @@ public class Board : MonoBehaviour
             {
                 Tile TileComp = Tiles[CurPos.x, j].GetComponent<TileBackground>().GetTileComponent();
 
-                if (TileComp && TileComp.IsTileMoved() == false)
+                if (TileComp && TileComp.IsTileMatched() == false)
                 {
                     int MoveCount = ColumnLineArr[CurPos.x];
 
@@ -251,32 +265,39 @@ public class Board : MonoBehaviour
                     TileComp.SetPosition(j - MoveCount, CurPos.x);
                 }
             }
+
+            --ColumnLineArr[CurPos.x];
         }
+
+        for (int i = 0; i < Width; ++i)
+            ColumnLineArr[i] = 0;
 
         CheckList.Clear();
     }
 
-    public void Check(int _TargetRow, int _TargetCol)
+    public bool Check(int _TargetRow, int _TargetCol)
     {
         List<Vector2Int> CurrentCheckList = new List<Vector2Int>();
         List<Vector2Int> VerticalList = BFS(_TargetRow, _TargetCol, false); // Vertical BFS
+        List<Vector2Int> HorizonList = BFS(_TargetRow, _TargetCol, true);  // Horizontal BFS
         
         // Check 성공시, 체크한 위치의 ColumnLineArr 증가.
         if(VerticalList.Count > 0) 
         {
             ++ColumnLineArr[_TargetCol];
         }
-        
-        List<Vector2Int> HorizonList = BFS(_TargetRow, _TargetCol, true);  // Horizontal BFS
 
         CurrentCheckList.AddRange(VerticalList);
         CurrentCheckList.AddRange(HorizonList);
-        CheckList = CurrentCheckList.Distinct().ToList();
 
-        //if (CheckList.Count >= 3)
-        //{
-        //    MoveTiles();
-        //}
+        if (CurrentCheckList.Count > 0)
+        {
+            CheckList = CurrentCheckList.Distinct().ToList();
+            return true;
+        }
+
+        else
+            return false;
     }
 
     private void Setup()
@@ -291,6 +312,12 @@ public class Board : MonoBehaviour
                 TileObj.name = "(" +  i + ", " + j + ")";
                 TileObj.GetComponent<TileBackground>().SetPosition(j, i);
                 Tiles[i, j] = TileObj;
+
+                // 타일 종류 수동설정
+                if (IsTileSetToManual)
+                {
+                    TileObj.GetComponent<TileBackground>().SetTileManual((i * Width + j) % (int)Tile.TileType.Max);
+                }
             }
         }
     }

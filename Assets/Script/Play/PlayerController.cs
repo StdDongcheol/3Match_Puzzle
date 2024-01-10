@@ -65,10 +65,13 @@ public class PlayerController : MonoBehaviour
 
                         Debug.Log("Swapped");
 
-                        // 움직인 Tile 기준으로 Board.CheckTile() 수행.
+                        bool SrcCheck = Tile.CheckTile(SrcTile);
+                        bool DstCheck = Tile.CheckTile(DstTile);
                         
-                        Tile.CheckTile(SrcTile);
-                        Tile.CheckTile(DstTile);
+                        if (SrcCheck || DstCheck) 
+                        { 
+                            Board.GetBoard().MoveTiles();
+                        }
                     }
 
                     SrcTile = null;

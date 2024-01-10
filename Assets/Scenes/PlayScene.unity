@@ -552,6 +552,10 @@ PrefabInstance:
       propertyPath: TilePrefab
       value: 
       objectReference: {fileID: 2029621254623332607, guid: 0e5411780526aef46b9d3e3c260d2c93, type: 3}
+    - target: {fileID: 2659661111654264345, guid: 39e63d253088d8349a2ba1e1beb6256f, type: 3}
+      propertyPath: IsTileSetToManual
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5373862798055073586, guid: 39e63d253088d8349a2ba1e1beb6256f, type: 3}
       propertyPath: m_Name
       value: Board

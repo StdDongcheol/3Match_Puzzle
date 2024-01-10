@@ -15,6 +15,7 @@ public class Tile : MonoBehaviour
         Lemon,
         Tomato,
         Watermelon,
+        Max,
     }
 
     [SerializeField]
@@ -26,8 +27,10 @@ public class Tile : MonoBehaviour
 
     [SerializeField]
     public TileType FruitType { get; set; }
+
     private bool bMatchCheck { get; set;}
     private bool bMoveTile { get; set;}
+    private int  TileOffset;
 
     Tile() : base()
     {
@@ -87,9 +90,10 @@ public class Tile : MonoBehaviour
     {
         int Tile1Row = _tile1.GetComponent<Tile>().Row;
         int Tile1Col = _tile1.GetComponent<Tile>().Column;
-        _tile1.transform.parent.parent.GetComponent<Board>().Check(Tile1Row, Tile1Col);
 
-        return true;
+        bool bIsTileMatched = _tile1.transform.parent.parent.GetComponent<Board>().Check(Tile1Row, Tile1Col);
+        
+        return bIsTileMatched;
     }
 
     public void SetPosition(int _Row, int _Column)
@@ -112,6 +116,11 @@ public class Tile : MonoBehaviour
     public bool IsTileMoved()
     {
         return bMoveTile;
+    }
+    
+    public bool IsTileMatched()
+    {
+        return bMatchCheck;
     }
 
     public void SetMatchCheck(bool _bEnable)
